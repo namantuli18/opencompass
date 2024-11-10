@@ -27,11 +27,3 @@ models = [
         run_cfg=dict(num_gpus=1),
     )
 ]
-
-summarizer = dict(
-    type='GroupedBarSummarizer',
-    text_cfg=dict(
-        task_abbr='boolq',
-        metric='Accuracy',
-    ),
-)
