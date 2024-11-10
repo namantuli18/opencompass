@@ -11,16 +11,16 @@ models = [
     dict(
         type=HuggingFaceCausalLM,
         abbr='short-llama',
-        path='namannn/short-llama2-7b',
-        tokenizer_path='namannn/short-llama2-7b',
+        path='meta-llama/Llama-2-7b-hf',
+        tokenizer_path='meta-llama/Llama-2-7b-hf',
         model_kwargs=dict(
             device_map='auto',
             trust_remote_code=True,
             load_in_8bit=False,
             revision='main',
-            config=dict(
-                type='custom_config.get_custom_config',
-            ),
+            # config=dict(
+            #     type='custom_config.get_custom_config',
+            # ),
         ),
         max_seq_len=1024,
         batch_size=4,
