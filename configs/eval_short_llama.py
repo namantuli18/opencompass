@@ -1,6 +1,13 @@
 from opencompass.models import HuggingFaceCausalLM
 from opencompass.datasets import BoolQDataset, boolq_postprocess
+from mmengine.config import read_base
 
+with read_base():
+    from opencompass.configs.datasets.collections.base_medium_llama import piqa_datasets, siqa_datasets
+    from opencompass.configs.models.llama.llama2_7b import models
+
+
+datasets = [*piqa_datasets, *siqa_datasets]
 models = [
     dict(
         type=HuggingFaceCausalLM,
@@ -11,26 +18,6 @@ models = [
         max_seq_len=2048,
         batch_size=4,
         run_cfg=dict(num_gpus=1),
-    )
-]
-
-datasets = [
-    dict(
-        abbr='boolq',
-        type=BoolQDataset,
-        path='./data/boolq/dev.jsonl',
-        reader_cfg=dict(
-            input_columns=['passage', 'question'],
-            output_column='label',
-        ),
-        infer_cfg=dict(
-            prompt_template='{passage}\nQuestion: {question}\nAnswer:',
-            retriever=dict(type='ZeroRetriever'),
-        ),
-        eval_cfg=dict(
-            evaluator=dict(type='AccEvaluator'),
-            pred_postprocessor=dict(type='BoolQPostProcessor'),
-        ),
     )
 ]
 
