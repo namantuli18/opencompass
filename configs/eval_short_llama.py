@@ -3,11 +3,10 @@ from opencompass.datasets import BoolQDataset, boolq_postprocess
 from mmengine.config import read_base
 
 with read_base():
-    from opencompass.configs.datasets.collections.base_medium_llama import piqa_datasets, siqa_datasets
-    from opencompass.configs.models.llama.llama2_7b import models
+    from opencompass.configs.datasets.ceval.ceval_gen import ceval_datasets
 
 
-datasets = [*piqa_datasets, *siqa_datasets]
+datasets = [*ceval_datasets,]
 models = [
     dict(
         type=HuggingFaceCausalLM,
