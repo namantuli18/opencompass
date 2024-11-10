@@ -1,4 +1,5 @@
 from opencompass.models import HuggingFaceCausalLM
+from opencompass.datasets import BoolQDataset, boolq_postprocess
 
 models = [
     dict(
@@ -13,7 +14,30 @@ models = [
     )
 ]
 
-datasets = ['boolq']
+datasets = [
+    dict(
+        abbr='boolq',
+        type=BoolQDataset,
+        path='./data/boolq/dev.jsonl',
+        reader_cfg=dict(
+            input_columns=['passage', 'question'],
+            output_column='label',
+        ),
+        infer_cfg=dict(
+            prompt_template='{passage}\nQuestion: {question}\nAnswer:',
+            retriever=dict(type='ZeroRetriever'),
+        ),
+        eval_cfg=dict(
+            evaluator=dict(type='AccEvaluator'),
+            pred_postprocessor=dict(type='BoolQPostProcessor'),
+        ),
+    )
+]
 
-from opencompass.summarizers import GroupedBarSummarizer
-summarizer = dict(type=GroupedBarSummarizer)
+summarizer = dict(
+    type='GroupedBarSummarizer',
+    text_cfg=dict(
+        task_abbr='boolq',
+        metric='Accuracy',
+    ),
+)
