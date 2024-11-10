@@ -1,12 +1,13 @@
 from opencompass.models import HuggingFaceCausalLM
-from opencompass.datasets import BoolQDataset, boolq_postprocess
 from mmengine.config import read_base
 
 with read_base():
-    from opencompass.configs.datasets.ceval.ceval_gen import ceval_datasets
+    from opencompass.configs.datasets.demo.demo_gsm8k_chat_gen import gsm8k_datasets
+    from opencompass.configs.datasets.demo.demo_math_chat_gen import math_datasets
 
 
-datasets = [*ceval_datasets,]
+datasets = gsm8k_datasets + math_datasets
+
 models = [
     dict(
         type=HuggingFaceCausalLM,
